@@ -6,15 +6,22 @@ import {
   selectedProduct,
 } from "../redux/actions/productActions";
 import axios from "axios";
+
 const ProductDetail = () => {
   const product = useSelector((state) => state.product);
   console.log(product);
+
+  //destructuring the state(product)
   const { image, title, price, category, description } = product;
   console.log(title);
+
   const dispatch = useDispatch();
+
+  //we got the productId via params
   const { productId } = useParams();
   console.log(productId);
 
+  //data fetching function using axios
   const fetchData = async (id) => {
     const response = await axios
       .get(`https://fakestoreapi.com/products/${id}`)
@@ -23,11 +30,16 @@ const ProductDetail = () => {
         console.log(error);
       });
     console.log(response);
+
+    //dispatching
     dispatch(selectedProduct(response.data));
   };
+
   useEffect(() => {
+    //checking the product is not null
     if (productId && productId !== "") fetchData(productId);
     return () => {
+      //removing the product from state after entering the page
       dispatch(removeProduct());
     };
   }, [productId]);

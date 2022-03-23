@@ -7,7 +7,10 @@ import { setProduct } from "../redux/actions/productActions";
 const ProductListing = () => {
   const products = useSelector((state) => state);
   const dispatch = useDispatch();
+
   console.log(products);
+
+  //fetching data
   const fetchData = async () => {
     const response = await axios
       .get("https://fakestoreapi.com/products")
@@ -16,6 +19,7 @@ const ProductListing = () => {
         console.log(error);
       });
     console.log(response);
+    //dispatching setproduct
     dispatch(setProduct(response.data));
   };
   useEffect(() => {
